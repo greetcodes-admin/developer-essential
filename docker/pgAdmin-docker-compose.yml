@@ -15,7 +15,7 @@ services:
 
     environment:
       PGADMIN_DEFAULT_EMAIL: developers@greet.codes
-      PGADMIN_DEFAULT_PASSWORD: "Deval@#$1177"
+      PGADMIN_DEFAULT_PASSWORD: "9426460841149"
       PGADMIN_CONFIG_LOGIN_ATTEMPTS: 20
 
 networks:
