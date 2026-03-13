@@ -1,0 +1,23 @@
+version: "3.9"
+
+services:
+  pgAdmin:
+    image: dpage/pgadmin4:latest
+    hostname: pgAdmin4
+    container_name: pgAdmin4
+    restart: unless-stopped
+    volumes:
+      - /opt/pgadmin:/var/lib/pgadmin
+
+    networks:
+      lan_net:
+        ipv4_address: 192.168.200.11
+
+    environment:
+      PGADMIN_DEFAULT_EMAIL: developers@greet.codes
+      PGADMIN_DEFAULT_PASSWORD: "Deval@#$1177"
+      PGADMIN_CONFIG_LOGIN_ATTEMPTS: 20
+
+networks:
+  lan_net:
+    external: true

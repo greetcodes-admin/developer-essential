@@ -1,0 +1,52 @@
+version: "3"
+
+services:
+  wg-easy:
+    image: ghcr.io/wg-easy/wg-easy:15
+    container_name: wg-easy
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    sysctls:
+      - net.ipv4.ip_forward=1
+      - net.ipv4.conf.all.src_valid_mark=1
+    environment:
+      - INSECURE=true
+      - HOST=0.0.0.0
+      - PORT=51821
+      - DISABLE_IPV6=true
+    volumes:
+      - /opt/wireguard:/etc/wireguard
+    ports:
+      - "51820:51820/udp"
+      - "51821:51821/tcp"
+    networks:
+      lan_net:
+        ipv4_address: 192.168.200.2
+
+  technitium-dns:
+    image: technitium/dns-server:latest
+    container_name: technitium-dns
+    hostname: dns-server
+    restart: unless-stopped
+    environment:
+      - DNS_SERVER_DOMAIN=dns.local
+      - DNS_SERVER_ADMIN_PASSWORD=9426460841149
+    volumes:
+      - /opt/technitium/:/etc/dns
+    ports:
+      - "5380:5380/tcp"
+    networks:
+      lan_net:
+        ipv4_address: 192.168.200.3
+
+networks:
+  lan_net:
+    external: true
+    
+# docker compose -p devlopment up -d    
+# docker network create --driver bridge --subnet 192.168.200.0/24 --gateway 192.168.200.1 lan_net    
+
+# POSTUP : iptables -A FORWARD -i wg0 -o {{device}} -j ACCEPT; iptables -A FORWARD -i {{device}} -o wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -s {{ipv4Cidr}} -d 192.168.200.0/24 -j MASQUERADE
+# POSTDOWN : iptables -D FORWARD -i wg0 -o {{device}} -j ACCEPT; iptables -D FORWARD -i {{device}} -o wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -s {{ipv4Cidr}} -d 192.168.200.0/24 -j MASQUERADE
