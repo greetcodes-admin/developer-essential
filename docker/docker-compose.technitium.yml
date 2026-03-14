@@ -1,0 +1,20 @@
+services:
+  technitium-dns:
+    image: technitium/dns-server:latest
+    container_name: technitium-dns
+    hostname: dns-server
+    restart: unless-stopped
+    environment:
+      - DNS_SERVER_DOMAIN=dns.local
+      - DNS_SERVER_ADMIN_PASSWORD=9426460841149
+    volumes:
+      - /opt/technitium/:/etc/dns
+    ports:
+      - "5380:5380/tcp"
+    networks:
+      lan_net:
+        ipv4_address: 192.168.200.3
+
+networks:
+  lan_net:
+    external: true
