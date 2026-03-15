@@ -21,3 +21,5 @@ services:
 networks:
   lan_net:
     external: true
+
+# docker compose -p essential -f compose.pgAdmin.yml up -d -- build  
