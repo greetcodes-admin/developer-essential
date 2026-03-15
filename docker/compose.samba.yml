@@ -6,7 +6,7 @@ services:
 
     environment:
       - NAME=devDisk
-      - USER=admin
+      - USER=root
       - PASS="Greet@8866"
       - UID=0
       - GID=0
