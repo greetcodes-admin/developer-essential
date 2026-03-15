@@ -6,6 +6,8 @@ docker network create --driver bridge --subnet 192.168.200.0/24 --gateway 192.16
 ------------------------------------------------------
 
 ufw allow 22/tcp
+ufw allow 445/tcp
+ufw allow 445/tcp
 ufw allow in on br-xxxxxx to any port 22 proto tcp
 ufw allow in on br-xxxxxx to any port 445 proto tcp
 ufw enable
