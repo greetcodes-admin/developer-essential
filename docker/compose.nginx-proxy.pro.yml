@@ -20,3 +20,5 @@ services:
       test: ["CMD", "/usr/bin/check-health"]
       interval: 10s
       timeout: 3s
+
+# docker compose -p essentials -f compose.nginx-proxy.pro.yml up -d --build
