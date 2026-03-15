@@ -16,13 +16,5 @@ services:
 
     volumes:
       - ./devDisk:/storage
-
-    networks:
-      lan_net:
-        ipv4_address: 192.168.200.5
-
-networks:
-  lan_net:
-    external: true
     
 # docker compose -p essential -f compose.samba.yml up -d --build  
