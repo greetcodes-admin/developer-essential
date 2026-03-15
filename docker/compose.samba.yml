@@ -1,0 +1,28 @@
+services:
+  samba:
+    image: dockurr/samba:latest
+    container_name: samba
+    restart: always
+
+    environment:
+      - NAME=devDisk
+      - USER=admin
+      - PASS="Greet@8866"
+      - UID=0
+      - GID=0
+
+    ports:
+      - "445:445/tcp"
+
+    volumes:
+      - ./devDisk:/storage
+
+    networks:
+      lan_net:
+        ipv4_address: 192.168.200.5
+
+networks:
+  lan_net:
+    external: true
+    
+# docker compose -p essential -f compose.samba.yml up -d -- build  
