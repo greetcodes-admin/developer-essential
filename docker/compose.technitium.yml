@@ -21,4 +21,4 @@ networks:
   lan_net:
     external: true
 
-# docker compose -p essential -f compose.technitium.yml up -d -- build  
+# docker compose -p essential -f compose.technitium.yml up -d --build  

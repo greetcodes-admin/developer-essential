@@ -33,7 +33,7 @@ networks:
   lan_net:
     external: true
     
-# docker compose -p essential -f compose.wireguard.yml up -d -- build  
+# docker compose -p essential -f compose.wireguard.yml up -d --build  
 
 # POSTUP : iptables -A FORWARD -i wg0 -o {{device}} -j ACCEPT; iptables -A FORWARD -i {{device}} -o wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -s {{ipv4Cidr}} -d 192.168.200.0/24 -j MASQUERADE
 # POSTDOWN : iptables -D FORWARD -i wg0 -o {{device}} -j ACCEPT; iptables -D FORWARD -i {{device}} -o wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -s {{ipv4Cidr}} -d 192.168.200.0/24 -j MASQUERADE
