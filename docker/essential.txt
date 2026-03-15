@@ -14,7 +14,6 @@ wget -O compose.samba.yml https://raw.githubusercontent.com/greetcodes-admin/dev
 
 ufw allow 22/tcp
 ufw allow 445/tcp
-ufw allow 445/tcp
 ufw allow in on br-xxxxxx to any port 22 proto tcp
 ufw allow in on br-xxxxxx to any port 445 proto tcp
 ufw enable
