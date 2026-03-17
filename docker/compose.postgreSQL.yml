@@ -1,13 +1,11 @@
-version: '3.8'
-
 services:
   postgres:
-    image: postgres:16
+    image: postgres:18
     container_name: postgres-db
     restart: always
 
     volumes:
-      - /opt/pgadmin/data/:/var/lib/postgresql/data
+      - /opt/postgresql:/var/lib/postgresql
 
     environment:
       POSTGRES_USER: root
