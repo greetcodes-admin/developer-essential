@@ -13,8 +13,7 @@ services:
 
     environment:
       PGADMIN_DEFAULT_EMAIL: developers@greet.codes
-      PGADMIN_DEFAULT_PASSWORD: "Greet@8866"
-      PGADMIN_CONFIG_LOGIN_ATTEMPTS: 20
+      PGADMIN_DEFAULT_PASSWORD: Greet@8866
       PGADMIN_LISTEN_PORT: 5050
 
 networks:
