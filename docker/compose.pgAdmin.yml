@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   pgAdmin:
     image: dpage/pgadmin4:latest
@@ -15,11 +13,13 @@ services:
 
     environment:
       PGADMIN_DEFAULT_EMAIL: developers@greet.codes
-      PGADMIN_DEFAULT_PASSWORD: "9426460841149"
+      PGADMIN_DEFAULT_PASSWORD: "Greet@8866"
       PGADMIN_CONFIG_LOGIN_ATTEMPTS: 20
+      PGADMIN_LISTEN_PORT: 5050
 
 networks:
   lan_net:
     external: true
 
 # docker compose -p essential -f compose.pgAdmin.yml up -d --build  
+# sudo chown -R 5050:5050 /opt/pgadmin
