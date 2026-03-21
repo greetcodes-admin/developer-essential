@@ -20,4 +20,3 @@ networks:
     external: true
 
 # docker compose -p essential -f compose.postgreSQL.yml up -d --build  
-# sudo chown -R 5050:5050 /opt/pgadmin    

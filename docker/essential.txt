@@ -1,25 +1,39 @@
 ESSENTIAL COMMAND
 =================
 
-docker network create --driver bridge --subnet 192.168.200.0/24 --gateway 192.168.200.1 lan_net
+sudo pkill -u ubuntu
+sudo deluser --remove-home ubuntu
+sudo deluser ubuntu sudo
+sudo delgroup ubuntu
+
+------------------------------------------------------
 
 mkdir /opt/docker-compose
-
 wget -O install_docker.sh https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/install_docker.sh
+
+docker network create --driver bridge --subnet 192.168.200.0/24 --gateway 192.168.200.1 lan_net
+
 wget -O compose.wireguard.yml https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/compose.wireguard.yml
 wget -O compose.technitium.yml https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/compose.technitium.yml
 wget -O compose.nginx-proxy.yml https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/compose.nginx-proxy.yml
 wget -O compose.samba.yml https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/compose.samba.yml
+
 wget -O compose.pgAdmin.yml https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/compose.pgAdmin.yml
+wget -O compose.postgreSQL.yml https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/compose.postgreSQL.yml
 
 ------------------------------------------------------
 
 ufw allow 22/tcp
 ufw allow 445/tcp
-ufw allow in on br-xxxxxx to any port 22 proto tcp
-ufw allow in on br-xxxxxx to any port 445 proto tcp
+ufw allow in on br-83c10819df9a to any port 22 proto tcp
+ufw allow in on br-83c10819df9a to any port 445 proto tcp
 ufw enable
 
 ------------------------------------------------------
 
 cd / && mkdir devDisk
+
+------------------------------------------------------
+
+git config --global user.name "Urvish Dudhagara"
+git config --global user.email "urvish.dudhagara@greet.codes"

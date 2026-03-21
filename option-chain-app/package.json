@@ -1,0 +1,18 @@
+{
+  "name": "option-chain-app",
+  "version": "1.0.0",
+  "description": "Live Option Chain — Direct Angel One API, No SDK",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "axios": "^1.7.9",
+    "ws": "^8.18.0",
+    "otplib": "^12.0.1",
+    "dotenv": "^16.4.7",
+    "binary-parser": "^2.2.1"
+  }
+}

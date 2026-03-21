@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ashish's Option Chain</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Outfit',sans-serif;background:#f0f2f5;color:#1a1a2e;min-height:100vh}
+
+    .header{
+      background:#fff;border-bottom:1px solid #e0e4ea;padding:14px 24px;
+      display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;
+      box-shadow:0 1px 4px rgba(0,0,0,.06);
+    }
+    .logo{display:flex;align-items:center;gap:12px}
+    .title-main{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;letter-spacing:-.5px}
+    .title-ashish{background:linear-gradient(135deg,#f59e0b,#ef4444,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .title-oc{background:linear-gradient(135deg,#2563eb,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .title-emoji{-webkit-text-fill-color:initial}
+
+    .badge{font-size:10px;padding:3px 10px;border-radius:20px;font-weight:700;letter-spacing:.5px}
+    .badge.live{background:#dcfce7;color:#16a34a;border:1px solid #bbf7d0}
+    .badge.off{background:#fee2e2;color:#dc2626;border:1px solid #fecaca}
+
+    .controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .index-buttons{display:flex;gap:6px;flex-wrap:wrap}
+    .idx-btn{
+      padding:7px 16px;border-radius:8px;border:1px solid #d1d5db;
+      background:#fff;color:#6b7280;font-size:12px;font-weight:600;
+      cursor:pointer;transition:all .2s;letter-spacing:.3px;font-family:'Outfit',sans-serif;
+    }
+    .idx-btn:hover{border-color:#2563eb;color:#2563eb;background:#eff6ff}
+    .idx-btn.active{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;border-color:#2563eb;box-shadow:0 2px 8px rgba(37,99,235,.3)}
+
+    select{padding:7px 12px;border-radius:8px;border:1px solid #d1d5db;background:#fff;color:#374151;font-size:12px;cursor:pointer;outline:none;font-family:'Outfit',sans-serif}
+    select:focus{border-color:#2563eb;box-shadow:0 0 0 2px rgba(37,99,235,.15)}
+
+    .info-bar{display:none;align-items:center;justify-content:center;gap:32px;padding:12px 24px;background:#fff;border-bottom:1px solid #e0e4ea;flex-wrap:wrap}
+    .info-item{display:flex;align-items:center;gap:6px}
+    .info-item .l{color:#9ca3af;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.8px}
+    .info-item .v{font-size:14px;font-weight:700;font-family:'JetBrains Mono',monospace}
+    .v.grn{color:#16a34a}.v.blu{color:#2563eb}.v.ylw{color:#d97706}.v.wht{color:#1e293b}
+
+    .status{text-align:center;padding:10px;font-size:12px;font-weight:500;color:#9ca3af;min-height:34px}
+    .status.err{color:#dc2626;background:#fef2f2}
+    .status.ok{color:#16a34a;background:#f0fdf4}
+    .status.load{color:#d97706;background:#fffbeb}
+
+    .table-wrap{overflow-x:auto;padding:0 16px 16px}
+    table{width:100%;border-collapse:collapse;font-size:12px;font-family:'JetBrains Mono',monospace;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.06)}
+
+    .group-hdr{text-align:center;padding:10px;font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:1.5px;font-family:'Outfit',sans-serif}
+    .group-hdr.calls{background:#ecfdf5;color:#059669}
+    .group-hdr.strike-h{background:#f5f3ff;color:#7c3aed}
+    .group-hdr.puts{background:#fef2f2;color:#dc2626}
+
+    th{padding:9px 12px;font-weight:700;font-size:10px;text-transform:uppercase;letter-spacing:.8px;color:#9ca3af;border-bottom:2px solid #e5e7eb;font-family:'Outfit',sans-serif;white-space:nowrap}
+    th.ce{background:#f0fdf4}th.sk{background:#f5f3ff;color:#7c3aed}th.pe{background:#fef2f2}
+
+    td{padding:9px 12px;text-align:right;border-bottom:1px solid #f3f4f6;font-variant-numeric:tabular-nums;transition:background .2s}
+
+    .ce-cell{background:#fafffe}.ce-cell.itm{background:#dcfce7}
+    .pe-cell{background:#fffafa}.pe-cell.itm{background:#fee2e2}
+
+    .s-cell{text-align:center;font-weight:700;font-size:13px;background:#f5f3ff;color:#6d28d9;position:relative;border-left:2px solid #e9e5f5;border-right:2px solid #e9e5f5}
+
+    tr.atm td{background:#ede9fe !important;border-top:2.5px solid #7c3aed;border-bottom:2.5px solid #7c3aed}
+    tr.atm .s-cell{background:linear-gradient(135deg,#7c3aed,#6d28d9) !important;color:#fff !important;font-size:14px;box-shadow:0 0 18px rgba(124,58,237,.25)}
+    tr.atm .s-cell::after{content:"◀ ATM ▶";position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);font-size:8px;background:#7c3aed;color:#fff;padding:2px 8px;border-radius:0 0 6px 6px;font-weight:800;font-family:'Outfit',sans-serif;letter-spacing:1px;white-space:nowrap;box-shadow:0 2px 6px rgba(124,58,237,.3)}
+    tr.atm .ce-cell{background:#e0d4fc !important}
+    tr.atm .pe-cell{background:#e0d4fc !important}
+    tr.atm .prem{color:#4c1d95 !important}
+    tr.atm .intr{color:#059669 !important;font-weight:700}
+    tr.atm .extr{color:#b45309 !important;font-weight:700}
+
+    .prem{font-weight:700;color:#1e293b}.intr{color:#16a34a}.extr{color:#d97706}
+
+    tr:not(.atm):hover td{background:#f8fafc}
+    tr:not(.atm):hover .ce-cell.itm{background:#bbf7d0}
+    tr:not(.atm):hover .pe-cell.itm{background:#fecaca}
+
+    .empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px;text-align:center}
+    .empty .icon{font-size:56px;margin-bottom:16px}
+    .empty h2{font-size:20px;font-weight:700;color:#7c3aed;margin-bottom:6px;font-family:'Playfair Display',serif}
+    .empty p{color:#9ca3af;font-size:13px;max-width:380px;line-height:1.7}
+
+    .footer{text-align:center;padding:14px;color:#d1d5db;font-size:11px;border-top:1px solid #e5e7eb;background:#fff}
+
+    .pulse{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px;vertical-align:middle}
+    .pulse.on{background:#16a34a;animation:pulse 2s infinite}.pulse.off{background:#dc2626}
+    @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(22,163,74,.4)}70%{box-shadow:0 0 0 7px rgba(22,163,74,0)}100%{box-shadow:0 0 0 0 rgba(22,163,74,0)}}
+
+    @keyframes fup{0%{background:#bbf7d0}100%{background:transparent}}
+    @keyframes fdn{0%{background:#fecaca}100%{background:transparent}}
+    .flash-up{animation:fup .5s ease}.flash-down{animation:fdn .5s ease}
+
+    .live-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#16a34a;margin-left:6px;vertical-align:middle;animation:pulse 2s infinite}
+
+    /* Target Spot input */
+    .target-spot-wrap{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+    .target-spot-input{width:110px;padding:6px 10px;border-radius:8px;border:1.5px solid #d1d5db;background:#fff;color:#374151;font-size:12px;font-family:'JetBrains Mono',monospace;outline:none;transition:border-color .2s}
+    .target-spot-input:focus{border-color:#2563eb;box-shadow:0 0 0 2px rgba(37,99,235,.15)}
+    .target-spot-input::placeholder{color:#9ca3af}
+    .rate-input{width:60px;padding:6px 8px;border-radius:8px;border:1.5px solid #d1d5db;background:#fff;color:#374151;font-size:12px;font-family:'JetBrains Mono',monospace;outline:none;transition:border-color .2s}
+    .rate-input:focus{border-color:#2563eb;box-shadow:0 0 0 2px rgba(37,99,235,.15)}
+    .calc-btn{padding:6px 14px;border-radius:8px;border:none;background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Outfit',sans-serif}
+    .calc-btn:hover{box-shadow:0 2px 8px rgba(37,99,235,.4)}
+    .reset-btn{padding:6px 12px;border-radius:8px;border:1.5px solid #d1d5db;background:#fff;color:#6b7280;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Outfit',sans-serif}
+    .reset-btn:hover{border-color:#dc2626;color:#dc2626}
+
+    /* Theo. Price & IV% columns */
+    th.ce-theo{background:#eff6ff;color:#1d4ed8}
+    th.ce-iv{background:#ecfeff;color:#0891b2}
+    th.pe-iv{background:#ecfeff;color:#0891b2}
+    th.pe-theo{background:#eff6ff;color:#1d4ed8}
+    .theo-cell{color:#1d4ed8;font-weight:600;font-style:normal}
+    .iv-cell{color:#0891b2}
+    .theo-na{color:#9ca3af}
+
+    @media(max-width:768px){
+      .header{padding:10px 12px}.controls{width:100%}.index-buttons{width:100%;justify-content:center}
+      .title-main{font-size:16px}table{font-size:10px}td,th{padding:6px 7px}
+      .idx-btn{padding:5px 10px;font-size:10px}.info-bar{gap:16px;padding:10px 12px}
+      tr.atm .s-cell::after{display:none}
+      .target-spot-wrap{gap:4px}.target-spot-input{width:90px}.rate-input{width:50px}
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="logo">
+      <span class="title-main">
+        <span class="title-emoji">📊</span>
+        <span class="title-ashish">Ashish's</span>
+        <span class="title-oc">Option Chain</span>
+      </span>
+      <span class="badge off" id="badge"><span class="pulse off"></span>Offline</span>
+    </div>
+    <div class="controls">
+      <div class="index-buttons" id="indexBtns">
+        <button class="idx-btn active" data-sym="NIFTY">NIFTY 50</button>
+        <button class="idx-btn" data-sym="BANKNIFTY">BANK NIFTY</button>
+        <button class="idx-btn" data-sym="FINNIFTY">FIN NIFTY</button>
+        <button class="idx-btn" data-sym="MIDCPNIFTY">MIDCAP NIFTY</button>
+        <button class="idx-btn" data-sym="SENSEX">SENSEX</button>
+        <button class="idx-btn" data-sym="BANKEX">BANKEX</button>
+      </div>
+      <select id="expSel">
+        <option value="0">Nearest Expiry</option>
+        <option value="1" selected>+1 Expiry</option>
+        <option value="2">+2 Expiry</option>
+        <option value="3">+3 Expiry</option>
+      </select>
+      <select id="rngSel">
+        <option value="5">±5 Strikes</option>
+        <option value="10" selected>±10 Strikes</option>
+        <option value="15">±15 Strikes</option>
+        <option value="20">±20 Strikes</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="info-bar" id="infoBar">
+    <div class="info-item"><span class="l">Index</span><span class="v blu" id="iSym">—</span></div>
+    <div class="info-item"><span class="l">Spot Price</span><span class="v grn" id="iSpot">—</span></div>
+    <div class="info-item"><span class="l">ATM Strike</span><span class="v ylw" id="iATM">—</span></div>
+    <div class="info-item"><span class="l">Expiry</span><span class="v wht" id="iExp">—</span></div>
+    <div class="info-item"><span class="l">Last Update</span><span class="v wht" id="iTime">—</span></div>
+    <div class="info-item target-spot-wrap">
+      <span class="l">Target Spot</span>
+      <input class="target-spot-input" id="targetSpotInput" type="number" placeholder="e.g. 24800" min="0" step="any" aria-label="Target spot price">
+      <span class="l" style="margin-left:4px">Rate%</span>
+      <input class="rate-input" id="rateInput" type="number" value="7" min="0" max="30" step="0.1" aria-label="Risk-free interest rate in percent" title="Risk-free rate (%)">
+      <button class="calc-btn" id="calcBtn">Calculate</button>
+      <button class="reset-btn" id="resetBtn">Reset</button>
+    </div>
+  </div>
+
+  <div class="status" id="statusBar"></div>
+
+  <div id="main">
+    <div class="empty" id="empty">
+      <div class="icon">📈</div>
+      <h2>Welcome, Ashish!</h2>
+      <p>Select any index above to view its real-time option chain. Prices auto-refresh every tick via WebSocket.</p>
+    </div>
+    <div class="table-wrap" id="tableWrap" style="display:none">
+      <table>
+        <thead>
+          <tr>
+            <td class="group-hdr calls" colspan="5">CALLS (CE)</td>
+            <td class="group-hdr strike-h" colspan="1">STRIKE</td>
+            <td class="group-hdr puts" colspan="5">PUTS (PE)</td>
+          </tr>
+          <tr>
+            <th class="ce ce-theo">Theo. Price</th>
+            <th class="ce ce-iv">IV %</th>
+            <th class="ce">Premium</th>
+            <th class="ce">Intrinsic</th>
+            <th class="ce">Extrinsic</th>
+            <th class="sk">Strike Price</th>
+            <th class="pe">Extrinsic</th>
+            <th class="pe">Intrinsic</th>
+            <th class="pe">Premium</th>
+            <th class="pe pe-iv">IV %</th>
+            <th class="pe pe-theo">Theo. Price</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="footer">Ashish's Option Chain • Angel One SmartAPI • Real-time Auto Refresh 🚀</div>
+
+  <script>
+    let ws=null,prev={},currentSymbol="NIFTY",isLive=false,targetSpot=null,lastData=null;
+
+    /* ── Black-Scholes helpers ─────────────────────────────────────────── */
+    function normalCDF(x){
+      const a=[0.319381530,-0.356563782,1.781477937,-1.821255978,1.330274429];
+      const t=1/(1+0.2316419*Math.abs(x));
+      const poly=t*(a[0]+t*(a[1]+t*(a[2]+t*(a[3]+t*a[4]))));
+      const pdf=Math.exp(-0.5*x*x)/Math.sqrt(2*Math.PI);
+      const r=1-pdf*poly;
+      return x>=0?r:1-r;
+    }
+
+    function blackScholes(S,K,T,r,sigma,type){
+      if(T<=0) return type==='CE'?Math.max(0,S-K):Math.max(0,K-S);
+      if(sigma<=0) return type==='CE'?Math.max(0,S-K):Math.max(0,K-S);
+      const sqrtT=Math.sqrt(T);
+      const d1=(Math.log(S/K)+(r+sigma*sigma/2)*T)/(sigma*sqrtT);
+      const d2=d1-sigma*sqrtT;
+      if(type==='CE') return S*normalCDF(d1)-K*Math.exp(-r*T)*normalCDF(d2);
+      return K*Math.exp(-r*T)*normalCDF(-d2)-S*normalCDF(-d1);
+    }
+
+    function calcIV(marketPrice,S,K,T,r,type){
+      if(T<=0||marketPrice<=0||S<=0||K<=0) return null;
+      const intrinsic=type==='CE'?Math.max(0,S-K):Math.max(0,K-S);
+      // Only skip if market price is strictly below intrinsic (clear arbitrage violation); 0.5 tolerance covers rounding/tick-size differences
+      if(marketPrice<intrinsic-0.5) return null;
+      // Use a higher initial sigma for near-ATM (|log(S/K)|<0.05) where vega is largest and NR converges faster; lower for OTM/deep-ITM
+      const moneyness=Math.abs(Math.log(S/K));
+      let sigma=moneyness<0.05?0.3:0.2;
+      // Newton-Raphson iterations; tolerance 0.01 (₹0.01 price diff) is precise enough and improves convergence rate
+      for(let i=0;i<100;i++){
+        const price=blackScholes(S,K,T,r,sigma,type);
+        const diff=price-marketPrice;
+        if(Math.abs(diff)<0.01) return sigma>0?sigma:null;
+        const sqrtT=Math.sqrt(T);
+        const d1=(Math.log(S/K)+(r+sigma*sigma/2)*T)/(sigma*sqrtT);
+        const vega=S*Math.exp(-0.5*d1*d1)/Math.sqrt(2*Math.PI)*sqrtT;
+        if(Math.abs(vega)<0.0001) break;
+        sigma=sigma-diff/vega;
+        if(sigma<=0) sigma=0.001;
+        if(sigma>10) sigma=10;
+      }
+      // Bisection fallback if Newton-Raphson didn't converge well enough
+      let lo=0.001,hi=10;
+      for(let i=0;i<50;i++){
+        const mid=(lo+hi)/2;
+        const pMid=blackScholes(S,K,T,r,mid,type);
+        if(Math.abs(pMid-marketPrice)<0.01) return mid;
+        if(pMid<marketPrice) lo=mid; else hi=mid;
+        if(hi-lo<0.0001) break;
+      }
+      const finalPrice=blackScholes(S,K,T,r,(lo+hi)/2,type);
+      return Math.abs(finalPrice-marketPrice)<1?(lo+hi)/2:null;
+    }
+
+    function parseExpiryDate(s){
+      const months={JAN:0,FEB:1,MAR:2,APR:3,MAY:4,JUN:5,JUL:6,AUG:7,SEP:8,OCT:9,NOV:10,DEC:11};
+      // Handle "27MAR2025" (Angel One format — no dashes)
+      const m=s.toUpperCase().match(/^(\d{2})([A-Z]{3})(\d{4})$/);
+      if(m){
+        const mon=months[m[2]];
+        if(mon===undefined) return null;
+        return new Date(parseInt(m[3]),mon,parseInt(m[1]),15,30,0);
+      }
+      // Fallback: handle "27-MAR-2025" (dash-separated format)
+      const p=s.split('-');
+      if(p.length<3) return null;
+      const mon=months[p[1].toUpperCase()];
+      if(mon===undefined) return null;
+      return new Date(parseInt(p[2]),mon,parseInt(p[0]),15,30,0);
+    }
+
+    function calcT(expiryDate){
+      if(!expiryDate) return 0;
+      return Math.max(0,(expiryDate-new Date())/(365*24*60*60*1000));
+    }
+    /* ── End BS helpers ───────────────────────────────────────────────── */
+
+    function getRiskFreeRate(){
+      const v=parseFloat(document.getElementById("rateInput").value);
+      return isNaN(v)||v<0?0.07:v/100;
+    }
+
+    function calculateTheo(){
+      const v=parseFloat(document.getElementById("targetSpotInput").value);
+      if(isNaN(v)||v<=0){setStatus("⚠️ Enter a valid Target Spot price","load");return}
+      targetSpot=v;
+      if(lastData) render(lastData);
+    }
+
+    function resetTheo(){
+      targetSpot=null;
+      document.getElementById("targetSpotInput").value="";
+      if(lastData) render(lastData);
+    }
+
+    function connect(){
+      const p=location.protocol==='https:'?'wss:':'ws:';
+      ws=new WebSocket(`${p}//${location.host}`);
+      ws.onopen=()=>{setBadge(true);setStatus("Connected","ok")};
+      ws.onmessage=e=>handle(JSON.parse(e.data));
+      ws.onclose=()=>{setBadge(false);isLive=false;setStatus("Disconnected. Reconnecting...","err");setTimeout(connect,3000)};
+      ws.onerror=()=>setStatus("Connection error","err");
+    }
+
+    function handle(m){
+      if(m.type==="status")setStatus(m.message,"load");
+      if(m.type==="error"){setStatus("❌ "+m.message,"err");enableBtns()}
+      if(m.type==="chain_info"){updateInfo(m);updateExpiry(m.allExpiries)}
+      if(m.type==="option_chain"){render(m);isLive=true}
+    }
+
+    function load(sym){
+      if(!ws||ws.readyState!==1){setStatus("Not connected","err");return}
+      currentSymbol=sym;prev={};
+      document.querySelectorAll(".idx-btn").forEach(b=>b.classList.toggle("active",b.dataset.sym===sym));
+      disableBtns();setStatus(`Loading ${sym}...`,"load");
+      ws.send(JSON.stringify({type:"subscribe",symbol:sym,expiryIndex:+document.getElementById("expSel").value,strikeRange:+document.getElementById("rngSel").value}));
+    }
+
+    function render(d){
+      lastData=d;
+      document.getElementById("empty").style.display="none";
+      document.getElementById("tableWrap").style.display="block";
+      document.getElementById("infoBar").style.display="flex";
+      enableBtns();
+      document.getElementById("iSym").textContent=d.symbol;
+      document.getElementById("iSpot").textContent="₹"+fmt(d.spotPrice);
+      document.getElementById("iATM").textContent=fmt(d.atmStrike);
+      document.getElementById("iExp").textContent=d.expiry;
+      document.getElementById("iTime").innerHTML=new Date(d.timestamp).toLocaleTimeString()+'<span class="live-dot"></span>';
+
+      const S=d.spotPrice;
+      const r=getRiskFreeRate();
+      const expiryDate=parseExpiryDate(d.expiry);
+      const T=calcT(expiryDate);
+
+      const tb=document.getElementById("tbody");let html="";
+      for(const row of d.rows){
+        const ck=`c${row.strike}`,pk=`p${row.strike}`;let cf="",pf="";
+        if(prev[ck]!==undefined){if(row.ce.premium>prev[ck])cf="flash-up";else if(row.ce.premium<prev[ck])cf="flash-down"}
+        if(prev[pk]!==undefined){if(row.pe.premium>prev[pk])pf="flash-up";else if(row.pe.premium<prev[pk])pf="flash-down"}
+        prev[ck]=row.ce.premium;prev[pk]=row.pe.premium;
+
+        const K=row.strike;
+        const ceIV=calcIV(row.ce.premium,S,K,T,r,'CE');
+        const peIV=calcIV(row.pe.premium,S,K,T,r,'PE');
+
+        let ceTheo="—",peTheo="—";
+        if(targetSpot!=null&&targetSpot>0){
+          ceTheo=ceIV!=null?fmtTheo(blackScholes(targetSpot,K,T,r,ceIV,'CE')):"N/A";
+          peTheo=peIV!=null?fmtTheo(blackScholes(targetSpot,K,T,r,peIV,'PE')):"N/A";
+        }
+
+        const ceIVStr=ceIV!=null?(ceIV*100).toFixed(1)+"%":"—";
+        const peIVStr=peIV!=null?(peIV*100).toFixed(1)+"%":"—";
+
+        const ceTheoClass=(ceTheo==="—"||ceTheo==="N/A")?"theo-na":"theo-cell";
+        const peTheoClass=(peTheo==="—"||peTheo==="N/A")?"theo-na":"theo-cell";
+
+        html+=`<tr class="${row.isATM?"atm":""}">
+          <td class="ce-cell ${row.ce.itm?"itm":""} ${ceTheoClass}">${ceTheo}</td>
+          <td class="ce-cell ${row.ce.itm?"itm":""} iv-cell">${ceIVStr}</td>
+          <td class="ce-cell ${row.ce.itm?"itm":""} prem ${cf}">${fmt(row.ce.premium)}</td>
+          <td class="ce-cell ${row.ce.itm?"itm":""} intr">${fmt(row.ce.intrinsic)}</td>
+          <td class="ce-cell ${row.ce.itm?"itm":""} extr">${fmt(row.ce.extrinsic)}</td>
+          <td class="s-cell">${fmt(row.strike)}</td>
+          <td class="pe-cell ${row.pe.itm?"itm":""} extr">${fmt(row.pe.extrinsic)}</td>
+          <td class="pe-cell ${row.pe.itm?"itm":""} intr">${fmt(row.pe.intrinsic)}</td>
+          <td class="pe-cell ${row.pe.itm?"itm":""} prem ${pf}">${fmt(row.pe.premium)}</td>
+          <td class="pe-cell ${row.pe.itm?"itm":""} iv-cell">${peIVStr}</td>
+          <td class="pe-cell ${row.pe.itm?"itm":""} ${peTheoClass}">${peTheo}</td>
+        </tr>`;
+      }
+      tb.innerHTML=html;
+      setStatus(`🟢 Live • ${d.symbol} • ${d.rows.length} strikes • ${new Date(d.timestamp).toLocaleTimeString()}`,"ok");
+    }
+
+    function fmtTheo(n){return n==null||isNaN(n)?"—":Number(n).toFixed(2)}
+    function fmt(n){return n==null?"—":Number(n).toFixed(2)}
+    function setStatus(t,c){const s=document.getElementById("statusBar");s.textContent=t;s.className="status "+(c||"")}
+    function setBadge(on){const b=document.getElementById("badge");b.innerHTML=on?'<span class="pulse on"></span>Live':'<span class="pulse off"></span>Offline';b.className=on?"badge live":"badge off"}
+    function disableBtns(){document.querySelectorAll(".idx-btn").forEach(b=>b.style.pointerEvents="none")}
+    function enableBtns(){document.querySelectorAll(".idx-btn").forEach(b=>b.style.pointerEvents="auto")}
+    function updateInfo(m){document.getElementById("iSym").textContent=m.symbol;document.getElementById("iSpot").textContent="₹"+fmt(m.spotPrice);document.getElementById("iATM").textContent=fmt(m.atmStrike);document.getElementById("iExp").textContent=m.expiry}
+    function updateExpiry(list){const sel=document.getElementById("expSel");const cur=sel.value;sel.innerHTML="";list.forEach((e,i)=>{const o=document.createElement("option");o.value=i;o.textContent=e;if(i==cur)o.selected=true;sel.appendChild(o)})}
+
+    document.getElementById("indexBtns").addEventListener("click",e=>{const btn=e.target.closest(".idx-btn");if(btn)load(btn.dataset.sym)});
+    document.getElementById("expSel").addEventListener("change",()=>load(currentSymbol));
+    document.getElementById("rngSel").addEventListener("change",()=>load(currentSymbol));
+    document.getElementById("calcBtn").addEventListener("click",calculateTheo);
+    document.getElementById("resetBtn").addEventListener("click",resetTheo);
+    document.getElementById("targetSpotInput").addEventListener("keydown",e=>{if(e.key==="Enter")calculateTheo()});
+
+    connect();
+  </script>
+</body>
+</html>
