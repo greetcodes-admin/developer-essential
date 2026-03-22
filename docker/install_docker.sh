@@ -52,8 +52,4 @@ sudo systemctl start docker
 
 echo "✅ Docker installed successfully."
 
-# Optional test
-echo "Running test container..."
-sudo docker run --rm hello-world
-
 
