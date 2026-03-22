@@ -16,7 +16,6 @@ mkdir /opt/docker-compose
 wget -O install_docker.sh https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/install_docker.sh
 
 docker network create --driver bridge --subnet 192.168.200.0/24 --gateway 192.168.200.1 lan_net
-echo ghp_xxx | docker login ghcr.io -u greetcodes-admin --password-stdin
 
 wget -O compose.wireguard.yml https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/compose.wireguard.yml
 wget -O compose.technitium.yml https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/compose.technitium.yml
