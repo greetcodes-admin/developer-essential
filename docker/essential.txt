@@ -16,7 +16,7 @@ mkdir /opt/docker-compose
 wget -O install_docker.sh https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/install_docker.sh
 
 docker network create --driver bridge --subnet 192.168.200.0/24 --gateway 192.168.200.1 lan_net
-echo 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 | docker login ghcr.io -u greetcodes-admin --password-stdin
+echo ghp_xxx | docker login ghcr.io -u greetcodes-admin --password-stdin
 
 wget -O compose.wireguard.yml https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/compose.wireguard.yml
 wget -O compose.technitium.yml https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/compose.technitium.yml
@@ -38,12 +38,12 @@ ufw enable
 
 sudo adduser --no-create-home --disabled-password --disabled-login finance && sudo smbpasswd -a finance
 
-CREATE USER 'root'@'%' IDENTIFIED BY 'Deval@#$12347';
+CREATE USER 'root'@'%' IDENTIFIED BY 'XXXX';
 
-ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'Deval@#$12347';
+ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'XXXX';
 GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION; 
 
-ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'Deval@#$12347';
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'XXXX';
 GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION; 
 
 FLUSH PRIVILEGES;
