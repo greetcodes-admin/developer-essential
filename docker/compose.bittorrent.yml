@@ -11,7 +11,7 @@ services:
       - TORRENTING_PORT=6881
 
     volumes:
-      - /opt/qbittorrent/appdata:/config
+      - /opt/qbittorrent:/config
       - /devDisk/downloads:/downloads
 
     # ports:
@@ -29,4 +29,4 @@ networks:
   lan_net:
     external: true
 
-# docker compose -p essential -f compose.bittorrent.yml up -d --build  
+# docker compose -p other -f compose.bittorrent.yml up -d --build  
