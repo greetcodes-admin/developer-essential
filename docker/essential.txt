@@ -17,23 +17,23 @@ curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essentia
 
 docker network create --driver bridge --subnet 192.168.200.0/24 --gateway 192.168.200.1 lan_net
 
-curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/essential/compose.wireguard.yml | sudo bash
-curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/essential/compose.technitium.yml | sudo bash
-curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/essential/compose.nginx-proxy.yml | sudo bash
-curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/essential/compose.samba.yml | sudo bash
+curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/essential/compose.wireguard.yml | docker compose -p essential -f - up -d --build
+curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/essential/compose.technitium.yml | docker compose -p essential -f - up -d --build
+curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/essential/compose.nginx-proxy.yml | docker compose -p essential -f - up -d --build
+curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/essential/compose.samba.yml | docker compose -p essential -f - up -d --build
 
-curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/essential/compose.pgAdmin.yml | sudo bash
-curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/essential/compose.postgreSQL.yml | sudo bash
+curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/essential/compose.pgAdmin.yml | docker compose -p essential -f - up -d --build
+curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/essential/compose.postgreSQL.yml | docker compose -p essential -f - up -d --build
 
 ------------------------------------------------------
 
 ufw allow 22/tcp
 ufw allow 445/tcp
-ufw allow in on br-83c10819df9a to any port 22 proto tcp
-ufw allow in on br-83c10819df9a to any port 445 proto tcp
+ufw allow in on br-4eb657762271 to any port 22 proto tcp
+ufw allow in on br-4eb657762271 to any port 445 proto tcp
 ufw enable
 
-====== [MYSQL] =====================================================================
+====== [MYSQL] =======================================================================================================================
 
 sudo adduser --no-create-home --disabled-password --disabled-login finance && sudo smbpasswd -a finance
 
@@ -47,4 +47,4 @@ GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION;
 
 FLUSH PRIVILEGES;
 
-=====================================================================
+=======================================================================================================================================

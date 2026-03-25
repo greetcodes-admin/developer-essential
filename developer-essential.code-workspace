@@ -1,0 +1,16 @@
+{
+  "folders": [
+    {
+	  "name": "Essential",
+      "uri": "vscode-remote://ssh-remote+devServer/devDisk/developer-essential"
+    }
+  ],
+  "remoteAuthority": "ssh-remote+devServer",
+  "settings": {
+    "editor.tabSize": 2,
+    "files.autoSave": "onFocusChange",
+    "remote.SSH.remotePlatform": {
+      "devServer": "linux"
+    }
+  }
+}
