@@ -17,13 +17,13 @@ curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essentia
 
 docker network create --driver bridge --subnet 192.168.200.0/24 --gateway 192.168.200.1 lan_net
 
-curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/compose.wireguard.yml | sudo bash
-curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/compose.technitium.yml | sudo bash
-curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/compose.nginx-proxy.yml | sudo bash
-curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/compose.samba.yml | sudo bash
+curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/essential/compose.wireguard.yml | sudo bash
+curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/essential/compose.technitium.yml | sudo bash
+curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/essential/compose.nginx-proxy.yml | sudo bash
+curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/essential/compose.samba.yml | sudo bash
 
-curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/compose.pgAdmin.yml | sudo bash
-curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/compose.postgreSQL.yml | sudo bash
+curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/essential/compose.pgAdmin.yml | sudo bash
+curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/essential/compose.postgreSQL.yml | sudo bash
 
 ------------------------------------------------------
 
