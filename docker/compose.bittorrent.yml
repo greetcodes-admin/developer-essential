@@ -12,7 +12,7 @@ services:
 
     volumes:
       - /opt/qbittorrent/appdata:/config
-      - /opt/qbittorrent/downloads:/downloads
+      - /devDisk/downloads:/downloads
 
     # ports:
     #   - "8080:8080/tcp" # WebUI
