@@ -1,0 +1,50 @@
+ESSENTIAL COMMAND
+=================
+
+sudo pkill -u ubuntu
+sudo deluser --remove-home ubuntu
+sudo deluser ubuntu sudo
+sudo delgroup ubuntu
+
+git config --global user.name "Deval Koradiya"
+git config --global user.email "deval@greet.codes"
+cd / && mkdir devDisk
+
+------------------------------------------------------
+
+mkdir /opt/docker-compose
+curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/install_docker.sh | sudo bash
+
+docker network create --driver bridge --subnet 192.168.200.0/24 --gateway 192.168.200.1 lan_net
+
+curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/essential/compose.wireguard.yml | docker compose -p essential -f - up -d --build
+curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/essential/compose.technitium.yml | docker compose -p essential -f - up -d --build
+curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/essential/compose.nginx-proxy.yml | docker compose -p essential -f - up -d --build
+curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/essential/compose.samba.yml | docker compose -p essential -f - up -d --build
+
+curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/essential/compose.pgAdmin.yml | docker compose -p essential -f - up -d --build
+curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/essential/compose.postgreSQL.yml | docker compose -p essential -f - up -d --build
+
+------------------------------------------------------
+
+ufw allow 22/tcp
+ufw allow 445/tcp
+ufw allow in on br-4eb657762271 to any port 22 proto tcp
+ufw allow in on br-4eb657762271 to any port 445 proto tcp
+ufw enable
+
+====== [MYSQL] =======================================================================================================================
+
+sudo adduser --no-create-home --disabled-password --disabled-login finance && sudo smbpasswd -a finance
+
+CREATE USER 'root'@'%' IDENTIFIED BY 'XXXX';
+
+ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'XXXX';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION; 
+
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'XXXX';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION; 
+
+FLUSH PRIVILEGES;
+
+=======================================================================================================================================
