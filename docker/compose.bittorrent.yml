@@ -1,0 +1,32 @@
+---
+services:
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    hostname: qbittorrent
+
+    environment:
+      - TZ=Asia/Kolkata
+      - WEBUI_PORT=8080
+      - TORRENTING_PORT=6881
+
+    volumes:
+      - /opt/qbittorrent/appdata:/config
+      - /opt/qbittorrent/downloads:/downloads
+
+    # ports:
+    #   - "8080:8080/tcp" # WebUI
+    #   - "6881:6881/tcp" # tcp connection port
+    #   - "6881:6881/udp" # udp connection port
+      
+    restart: unless-stopped
+
+    networks:
+      lan_net:
+        ipv4_address: 192.168.200.241
+
+networks:
+  lan_net:
+    external: true
+
+# docker compose -p essential -f compose.bittorrent.yml up -d --build  

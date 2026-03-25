@@ -6,25 +6,24 @@ sudo deluser --remove-home ubuntu
 sudo deluser ubuntu sudo
 sudo delgroup ubuntu
 
-git config --global user.name "Urvish Dudhagara"
-git config --global user.email "urvish.dudhagara@greet.codes"
+git config --global user.name "Deval Koradiya"
+git config --global user.email "deval@greet.codes"
 cd / && mkdir devDisk
 
 ------------------------------------------------------
 
 mkdir /opt/docker-compose
-wget -O install_docker.sh https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/install_docker.sh
+curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/install_docker.sh | sudo bash
 
 docker network create --driver bridge --subnet 192.168.200.0/24 --gateway 192.168.200.1 lan_net
 
+curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/compose.wireguard.yml | sudo bash
+curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/compose.technitium.yml | sudo bash
+curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/compose.nginx-proxy.yml | sudo bash
+curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/compose.samba.yml | sudo bash
 
-wget -O compose.wireguard.yml https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/compose.wireguard.yml
-wget -O compose.technitium.yml https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/compose.technitium.yml
-wget -O compose.nginx-proxy.yml https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/compose.nginx-proxy.yml
-wget -O compose.samba.yml https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/compose.samba.yml
-
-wget -O compose.pgAdmin.yml https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/compose.pgAdmin.yml
-wget -O compose.postgreSQL.yml https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/compose.postgreSQL.yml
+curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/compose.pgAdmin.yml | sudo bash
+curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/compose.postgreSQL.yml | sudo bash
 
 ------------------------------------------------------
 
