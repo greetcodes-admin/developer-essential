@@ -1,0 +1,31 @@
+---
+services:
+  filebrowser:
+    image: filebrowser/filebrowser:latest
+    container_name: filebrowser
+    hostname: filebrowser
+
+    environment:
+      - TZ=Asia/Kolkata
+
+    volumes:
+      - /opt/filebrowser/database:/database
+      - /opt/filebrowser/config:/config
+      - /userDisk/:/srv
+
+    user: "0:0"
+
+    # ports:
+    #   - "8080:80/tcp" # WebUI
+      
+    restart: unless-stopped
+
+    networks:
+      lan_net:
+        ipv4_address: 192.168.200.240
+
+networks:
+  lan_net:
+    external: true
+
+# docker compose -p other -f compose.filebrowser.yml up -d --build  
