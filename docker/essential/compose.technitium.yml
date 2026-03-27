@@ -6,6 +6,9 @@ services:
     
     restart: unless-stopped
 
+    ports:
+      - 5380:5380/tcp
+
     environment:
       - DNS_SERVER_DOMAIN=dns.local
       - DNS_SERVER_ADMIN_PASSWORD=9426460841149
