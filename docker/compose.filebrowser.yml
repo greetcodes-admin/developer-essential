@@ -21,11 +21,11 @@ services:
     restart: unless-stopped
 
     networks:
-      lan_net:
-        ipv4_address: 192.168.200.240
+      devNetwork:
+        ipv4_address: 172.20.0.240
 
 networks:
-  lan_net:
+  devNetwork:
     external: true
 
 # docker compose -p other -f compose.filebrowser.yml up -d --build  

@@ -8,8 +8,8 @@ services:
       - '81:81/tcp'
 
     networks:
-      lan_net:
-        ipv4_address: 192.168.200.4
+      devNetwork:
+        ipv4_address: 172.20.0.4
 
     environment:
       TZ: "Asia/Kolkata"
@@ -24,7 +24,7 @@ services:
       timeout: 3s
 
 networks:
-  lan_net:
+  devNetwork:
     external: true
 
 # docker compose -p essential -f compose.nginx-proxy.yml up -d --build  

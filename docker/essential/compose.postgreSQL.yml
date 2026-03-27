@@ -12,11 +12,11 @@ services:
       POSTGRES_PASSWORD: Greet@8866
 
     networks:
-      lan_net:
-        ipv4_address: 192.168.200.6
+      devNetwork:
+        ipv4_address: 172.20.0.6
 
 networks:
-  lan_net:
+  devNetwork:
     external: true
 
 # docker compose -p essential -f compose.postgreSQL.yml up -d --build  

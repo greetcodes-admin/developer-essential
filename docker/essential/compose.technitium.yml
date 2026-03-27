@@ -14,11 +14,11 @@ services:
       - /opt/technitium/:/etc/dns
     
     networks:
-      lan_net:
-        ipv4_address: 192.168.200.3
+      devNetwork:
+        ipv4_address: 172.20.0.3
 
 networks:
-  lan_net:
+  devNetwork:
     external: true
 
 # docker compose -p essential -f compose.technitium.yml up -d --build  

@@ -12,10 +12,9 @@ cd / && mkdir devDisk
 
 ------------------------------------------------------
 
-mkdir /opt/docker-compose
 curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/install_docker.sh | sudo bash
 
-docker network create --driver bridge --subnet 192.168.200.0/24 --gateway 192.168.200.1 lan_net
+docker network create --driver bridge --subnet 172.20.0.0/16 --gateway 172.20.0.1 devNetwork
 
 curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/essential/compose.wireguard.yml | docker compose -p essential -f - up -d --build
 curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/essential/compose.technitium.yml | docker compose -p essential -f - up -d --build
@@ -29,8 +28,10 @@ curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essentia
 
 ufw allow 22/tcp
 ufw allow 445/tcp
-ufw allow in on br-4eb657762271 to any port 22 proto tcp
-ufw allow in on br-4eb657762271 to any port 445 proto tcp
+ufw allow 80/tcp
+ufw allow 443/tcp
+ufw allow in on br-d5da5dd7e1b3 to any port 22 proto tcp
+ufw allow in on br-d5da5dd7e1b3 to any port 445 proto tcp
 ufw enable
 
 ====== [MYSQL] =======================================================================================================================
