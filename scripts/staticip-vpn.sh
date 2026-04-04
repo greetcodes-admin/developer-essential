@@ -26,7 +26,7 @@ fi
 
 clear
 echo -e "${CYAN}╔══════════════════════════════════════════════════╗${NC}"
-echo -e "${CYAN}║   WireGuard VPN + Port Forward - Setup Script   ║${NC}"
+echo -e "${CYAN}║   WireGuard VPN + Port Forward - Setup Script    ║${NC}"
 echo -e "${CYAN}╚══════════════════════════════════════════════════╝${NC}"
 echo ""
 
@@ -42,6 +42,21 @@ CLIENT_NAME="client1"
 WG_DIR="/etc/wireguard"
 CLIENT_CONF_OUTPUT="/root/${CLIENT_NAME}.conf"
 DNS="1.1.1.1, 8.8.8.8"
+
+# -------------------- Routing Mode --------------------
+# split: Client uses LOCAL internet; only WG subnet routes via VPN
+# full : Client uses SERVER internet (full tunnel); client public IP shows server IP
+ROUTING_MODE="full"   # "split" or "full"
+
+if [[ "$ROUTING_MODE" == "full" ]]; then
+    CLIENT_ALLOWED_IPS="0.0.0.0/0"
+    ROUTING_SUMMARY_1="${GREEN}    ✅ Client uses SERVER internet (full tunnel)${NC}"
+    ROUTING_SUMMARY_2="${GREEN}    ✅ Client public IP will be server IP${NC}"
+else
+    CLIENT_ALLOWED_IPS="${WG_NETWORK}"
+    ROUTING_SUMMARY_1="${GREEN}    ✅ Client uses LOCAL internet (not tunneled)${NC}"
+    ROUTING_SUMMARY_2="${GREEN}    ✅ Only VPN subnet (${WG_NETWORK}) goes through tunnel${NC}"
+fi
 
 # ============================================================
 # STEP 1: Detect Public IP on eth0 (handle dual IP)
@@ -123,10 +138,25 @@ else
 fi
 
 # ============================================================
-# STEP 3: Flush ALL iptables rules (clean slate)
+# STEP 3: Cleanup existing WireGuard + flush iptables (clean slate)
 # ============================================================
 echo ""
-echo -e "${YELLOW}[STEP 3/10] Flushing ALL iptables rules (clean slate)...${NC}"
+echo -e "${YELLOW}[STEP 3/10] Cleaning existing WireGuard + flushing iptables (clean slate)...${NC}"
+
+# --- Clean existing WireGuard state (if any) ---
+if systemctl list-unit-files 2>/dev/null | grep -q "^wg-quick@"; then
+    systemctl stop wg-quick@${WG_INTERFACE} 2>/dev/null || true
+    systemctl disable wg-quick@${WG_INTERFACE} >/dev/null 2>&1 || true
+fi
+
+if command -v wg-quick &>/dev/null; then
+    wg-quick down ${WG_INTERFACE} 2>/dev/null || true
+fi
+
+if [[ -f "${WG_DIR}/${WG_INTERFACE}.conf" ]]; then
+    TS=$(date +%Y%m%d%H%M%S)
+    mv "${WG_DIR}/${WG_INTERFACE}.conf" "${WG_DIR}/${WG_INTERFACE}.conf.bak.${TS}" 2>/dev/null || true
+fi
 
 iptables -F
 iptables -t nat -F
@@ -141,7 +171,7 @@ iptables -P INPUT ACCEPT
 iptables -P FORWARD ACCEPT
 iptables -P OUTPUT ACCEPT
 
-echo -e "${GREEN}[OK] All iptables rules flushed. Clean slate.${NC}"
+echo -e "${GREEN}[OK] Existing WireGuard cleaned + iptables flushed. Clean slate.${NC}"
 
 # ============================================================
 # STEP 4: Disable UFW / firewalld if active
@@ -297,7 +327,7 @@ DNS = ${DNS}
 PublicKey = ${SERVER_PUBLIC_KEY}
 PresharedKey = ${CLIENT_PRESHARED_KEY}
 Endpoint = ${SERVER_PUBLIC_IP}:${WG_PORT}
-AllowedIPs = ${WG_NETWORK}
+AllowedIPs = ${CLIENT_ALLOWED_IPS}
 PersistentKeepalive = 25
 EOF
 
@@ -374,8 +404,8 @@ echo -e "${GREEN}  Interface           : ${WG_INTERFACE}${NC}"
 echo -e "${GREEN}  Client Config File  : ${CLIENT_CONF_OUTPUT}${NC}"
 echo ""
 echo -e "${BOLD}  Routing Mode:${NC}"
-echo -e "${GREEN}    ✅ Client uses LOCAL internet (not tunneled)${NC}"
-echo -e "${GREEN}    ✅ Only VPN subnet (${WG_NETWORK}) goes through tunnel${NC}"
+echo -e "${ROUTING_SUMMARY_1}"
+echo -e "${ROUTING_SUMMARY_2}"
 echo ""
 echo -e "${BOLD}  Port Forwarding:${NC}"
 echo -e "${GREEN}    ✅ ALL TCP/UDP ports on ${SERVER_PUBLIC_IP} → ${CLIENT_WG_IP}${NC}"

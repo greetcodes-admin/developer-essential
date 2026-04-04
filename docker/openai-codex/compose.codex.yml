@@ -1,0 +1,28 @@
+---
+services:
+  codex:
+    container_name: codex
+    hostname: codex
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    volumes:
+      - /devDisk:/workspace
+
+    working_dir: /workspace
+      
+    stdin_open: true
+    tty: true
+    command: sleep infinity
+    restart: unless-stopped
+
+    networks:
+      devNetwork:
+        ipv4_address: 172.20.0.20
+
+networks:
+  devNetwork:
+    external: true
+
+# docker compose -p ai-tool -f compose.codex.yml up -d --build  

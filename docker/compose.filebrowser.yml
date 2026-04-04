@@ -15,8 +15,8 @@ services:
 
     user: "0:0"
 
-    # ports:
-    #   - "8080:80/tcp" # WebUI
+    ports:
+      - "8181:80/tcp" # WebUI
       
     restart: unless-stopped
 

@@ -12,7 +12,7 @@ services:
       - GID=0
 
     ports:
-      - "445:445/tcp"
+      - "445:445/tcp" 
 
     volumes:
       - /devDisk:/storage
