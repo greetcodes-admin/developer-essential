@@ -27,11 +27,22 @@
 172.20.1.32 : RENTALPLUS-WWW
 
 172.20.1.40 : CONNECTION TELECOM : API
+
+------------------------------------------------------------
+
 172.20.1.41 : ATTENCONTROL : ADMIN
 172.20.1.42 : ATTENCONTROL : API
 172.20.1.43 : ATTENCONTROL : PORTAL
 172.20.1.44 : ATTENCONTROL : WWW
 172.20.1.45 : ATTENCONTROL : 
+
+------------------------------------------------------------
+
+172.20.1.51 : RENTAL-PLUS : 
+172.20.1.52 : RENTAL-PLUS : 
+172.20.1.53 : RENTAL-PLUS : 
+172.20.1.54 : RENTAL-PLUS : 
+172.20.1.55 : RENTAL-PLUS : 
 
 ------------------------------------------------------------
 
