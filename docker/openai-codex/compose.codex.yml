@@ -15,13 +15,11 @@ services:
 
     environment:
       - CODEX_HOME=/opt/.codex
-    
-    security_opt:
-      - seccomp=unconfined
-      - apparmor=unconfined
 
-    cap_add:
-      - SYS_ADMIN
+    # Root user is used on the host/base OS, so no UID/GID mapping is needed.
+    # Keep Codex writable without granting broad container privileges.
+    security_opt:
+      - seccomp=./codex-seccomp.json
       
     stdin_open: true
     tty: true
