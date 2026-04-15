@@ -1,0 +1,34 @@
+services:
+  freepbx:
+    image: mleem97/lnxr-freepbx:17
+    container_name: lnxr-freepbx-prod
+
+    ports:
+      - "8080:80"
+      - "8443:443"
+      - "5060:5060/udp"
+      - "5061:5061/udp"
+      - "10000-20000:10000-20000/udp"
+
+    environment:
+      - TZ=Asia/Kolkata
+      - MYSQL_ROOT_PASSWORD=9426460841149
+
+    volumes:
+      - /opt/freepbx/database:/var/lib/mysql
+      - /opt/freepbx/config:/etc/asterisk
+      - /opt/freepbx/www:/var/www/html
+      - /opt/freepbx/logs:/var/log/asterisk
+      - /opt/freepbx/ssl:/etc/ssl/certs/freepbx
+
+    restart: unless-stopped
+
+    networks:
+      devNetwork:
+        ipv4_address: 172.20.0.0
+
+networks:
+  devNetwork:
+    external: true
+
+# docker compose -p other -f compose.freepbx.yml up -d --build  

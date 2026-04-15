@@ -1,0 +1,30 @@
+services:
+  rclone:
+    image: rclone/rclone:latest
+    container_name: rclone-webui
+    restart: unless-stopped
+    
+    volumes:
+      - /opt//rclone/config:/config/rclone
+      - /opt//rclone/data:/data
+
+    command: >
+      rcd
+      --rc-addr=:5572
+      --rc-web-gui
+      --rc-user=admin
+      --rc-pass=9426460841149
+      --config=/config/rclone/rclone.conf
+
+    networks:
+      devNetwork:
+        ipv4_address: 172.20.0.21
+
+    dns:
+      - 172.20.0.3
+
+networks:
+  devNetwork:
+    external: true      
+
+# docker compose -p other -f compose.rclone.yml up -d --build      

@@ -15,6 +15,10 @@ cd / && mkdir devDisk
 curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/install_docker.sh | sudo bash
 
 docker network create --driver bridge --subnet 172.20.0.0/16 --gateway 172.20.0.1 devNetwork
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' <container_name_or_id>
+docker ps -q | xargs docker inspect -f '{{.Name}} - {{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}'
+
+------------------------------------------------------
 
 curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/essential/compose.wireguard.yml | docker compose -p essential -f - up -d --build
 curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/essential/compose.technitium.yml | docker compose -p essential -f - up -d --build
