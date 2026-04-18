@@ -17,11 +17,6 @@ services:
       - CODEX_HOME=/opt/.codex
       - TZ=Asia/Kolkata
 
-    # Root user is used on the host/base OS, so no UID/GID mapping is needed.
-    # Keep Codex writable without granting broad container privileges.
-    security_opt:
-      - seccomp=./codex-seccomp.json
-      
     stdin_open: true
     tty: true
     command: sleep infinity
@@ -30,6 +25,9 @@ services:
     networks:
       devNetwork:
         ipv4_address: 172.20.0.20
+
+    dns:
+      - 172.20.0.3
 
 networks:
   devNetwork:
