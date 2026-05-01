@@ -35,8 +35,10 @@ ufw allow 80/tcp
 ufw allow 443/tcp
 
 ufw allow 445/tcp
-ufw allow 5050/tcp
 ufw allow 81/tcp
+
+ufw allow 5050/tcp // pgadmin
+ufw allow 5432/tcp // pg
 
 ufw allow in on br-d5da5dd7e1b3 to any port 22 proto tcp
 ufw allow in on br-d5da5dd7e1b3 to any port 445 proto tcp
