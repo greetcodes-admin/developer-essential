@@ -1,0 +1,41 @@
+---
+services:
+  windows:
+    image: dockurr/windows
+    container_name: windows
+    hostname: windows
+
+    environment:
+      REGION: "en-US"
+      KEYBOARD: "en-US"
+      LANGUAGE: "English"
+      VERSION: "10"
+      DISK_SIZE: "20G"
+      USERNAME: "bill"
+      PASSWORD: "gates"
+      KVM: "N"
+
+    # devices:
+    #   - /dev/kvm
+
+    volumes:
+      - /opt/windows:/storage
+
+    ports:
+      - "8006:8006"
+      - "3389:3389"
+
+    restart: unless-stopped
+
+    networks:
+      devNetwork:
+        ipv4_address: 172.20.20.11
+
+    dns:
+      - 172.20.0.3
+
+networks:
+  devNetwork:
+    external: true
+
+# docker compose -p windows -f compose.windows.yml up -d --build  

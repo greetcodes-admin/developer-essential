@@ -7,6 +7,9 @@ services:
     volumes:
       - /opt/pgadmin:/var/lib/pgadmin
 
+    ports:
+      - '5050:5050/tcp'
+
     environment:
       PGADMIN_DEFAULT_EMAIL: developers@greet.codes
       PGADMIN_DEFAULT_PASSWORD: Greet@8866
