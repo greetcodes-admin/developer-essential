@@ -33,17 +33,25 @@
 
 172.20.1.41 : ATTENCONTROL : ADMIN
 172.20.1.42 : ATTENCONTROL : API
-172.20.1.43 : ATTENCONTROL : PORTAL
+172.20.1.43 : ATTENCONTROL : PLATFORM
 172.20.1.44 : ATTENCONTROL : WWW
 172.20.1.45 : ATTENCONTROL : 
 
 ------------------------------------------------------------
 
-172.20.1.51 : RENTAL-PLUS : 
-172.20.1.52 : RENTAL-PLUS : 
-172.20.1.53 : RENTAL-PLUS : 
-172.20.1.54 : RENTAL-PLUS : 
+172.20.1.51 : RENTAL-PLUS : ADMIN
+172.20.1.52 : RENTAL-PLUS : API
+172.20.1.53 : RENTAL-PLUS : PLATFORM
+172.20.1.54 : RENTAL-PLUS : WWW
 172.20.1.55 : RENTAL-PLUS : 
+
+------------------------------------------------------------
+
+172.20.1.61 : WAP-CENTER : ADMIN
+172.20.1.62 : WAP-CENTER : API
+172.20.1.63 : WAP-CENTER : PLATFORM
+172.20.1.64 : WAP-CENTER : WWW
+172.20.1.65 : WAP-CENTER : 
 
 ------------------------------------------------------------
 
