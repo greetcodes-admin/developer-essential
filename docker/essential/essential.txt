@@ -36,6 +36,8 @@ ufw allow 443/tcp
 
 ufw allow 445/tcp
 ufw allow 81/tcp
+ufw allow 5380/tcp
+ufw delete allow 5380/tcp
 
 ufw allow 5050/tcp // pgadmin
 ufw allow 5432/tcp // pg
