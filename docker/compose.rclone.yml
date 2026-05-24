@@ -27,4 +27,4 @@ networks:
   devNetwork:
     external: true      
 
-# docker compose -p other -f compose.rclone.yml up -d --build      
+# docker compose -p other -f compose.rclone.yml up -d --build --pull always     

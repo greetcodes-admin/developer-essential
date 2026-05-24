@@ -6,6 +6,16 @@ sudo deluser --remove-home ubuntu
 sudo deluser ubuntu sudo
 sudo delgroup ubuntu
 
+------------------------------------------------------
+
+sudo mkdir -p /root/.ssh
+sudo cp /home/ubuntu/.ssh/authorized_keys /root/.ssh/authorized_keys
+sudo chmod 700 /root/.ssh
+sudo chmod 600 /root/.ssh/authorized_keys
+sudo chown -R root:root /root/.ssh
+
+------------------------------------------------------
+
 git config --global user.name "Deval Koradiya"
 git config --global user.email "deval@greet.codes"
 cd / && mkdir devDisk

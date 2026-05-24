@@ -27,4 +27,4 @@ networks:
   devNetwork:
     external: true
 
-# docker compose -p essential -f compose.nginx-proxy.yml up -d --build  
+# docker compose -p essential -f compose.nginx-proxy.yml up -d --build --pull always  

@@ -22,4 +22,4 @@ networks:
   devNetwork:
     external: true
 
-# docker compose -p essential -f compose.postgreSQL.yml up -d --build  
+# docker compose -p essential -f compose.postgreSQL.yml up -d --build --pull always 

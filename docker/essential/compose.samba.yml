@@ -25,4 +25,4 @@ networks:
   devNetwork:
     external: true
     
-# docker compose -p essential -f compose.samba.yml up -d --build 
+# docker compose -p essential -f compose.samba.yml up -d --build --pull always 

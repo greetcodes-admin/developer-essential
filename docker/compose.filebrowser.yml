@@ -28,4 +28,4 @@ networks:
   devNetwork:
     external: true
 
-# docker compose -p other -f compose.filebrowser.yml up -d --build  
+# docker compose -p other -f compose.filebrowser.yml up -d --build --pull always 
