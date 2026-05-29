@@ -1,4 +1,3 @@
----
 services:
   codex:
     container_name: codex
@@ -33,4 +32,4 @@ networks:
   devNetwork:
     external: true
 
-# docker compose -p ai-tool -f compose.codex.yml up -d --build  
+# docker compose -p ai-tool -f compose.codex.yml up -d --build --pull always    

@@ -30,13 +30,13 @@ docker ps -q | xargs docker inspect -f '{{.Name}} - {{range .NetworkSettings.Net
 
 ------------------------------------------------------
 
-curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/essential/compose.wireguard.yml | docker compose -p essential -f - up -d --build
-curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/essential/compose.technitium.yml | docker compose -p essential -f - up -d --build
-curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/essential/compose.nginx-proxy.yml | docker compose -p essential -f - up -d --build
-curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/essential/compose.samba.yml | docker compose -p essential -f - up -d --build
+curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/essential/compose.wireguard.yml | docker compose -p essential -f - up -d --build --pull always
+curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/essential/compose.technitium.yml | docker compose -p essential -f - up -d --build --pull always
+curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/essential/compose.nginx-proxy.yml | docker compose -p essential -f - up -d --build --pull always
+curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/essential/compose.samba.yml | docker compose -p essential -f - up -d --build --pull always
 
-curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/essential/compose.pgAdmin.yml | docker compose -p essential -f - up -d --build
-curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/essential/compose.postgreSQL.yml | docker compose -p essential -f - up -d --build
+curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/essential/compose.pgAdmin.yml | docker compose -p essential -f - up -d --build --pull always
+curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/essential/compose.postgreSQL.yml | docker compose -p essential -f - up -d --build --pull always
 
 ------------------------------------------------------
 
