@@ -7,8 +7,8 @@
 
 172.20.0.11 : pgAdmin
 
-172.20.0.20 : openai-codex
-172.20.0.21 : 
+172.20.0.20 : opencode
+172.20.0.21 : codex
 
 172.20.0.240 : FileBrowser
 172.20.0.241 : qbittorrent
@@ -53,7 +53,7 @@
 ------------------------------------------------------------
 
 172.20.1.61 : WAP-CENTER : ADMIN
-172.20.1.62 : WAP-CENTER : API
+172.20.1.62 : WAP-CENTER : API / WEBHOOK
 172.20.1.63 : WAP-CENTER : PLATFORM
 172.20.1.64 : WAP-CENTER : WWW
 172.20.1.65 : WAP-CENTER : 

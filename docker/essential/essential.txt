@@ -3,7 +3,7 @@ ESSENTIAL COMMAND
 
 sudo pkill -u ubuntu
 sudo deluser --remove-home ubuntu
-sudo deluser ubuntu sudo
+sudo deluser ubuntu
 sudo delgroup ubuntu
 
 ------------------------------------------------------
@@ -12,7 +12,7 @@ sudo mkdir -p /root/.ssh
 sudo cp /home/ubuntu/.ssh/authorized_keys /root/.ssh/authorized_keys
 sudo chmod 700 /root/.ssh
 sudo chmod 600 /root/.ssh/authorized_keys
-sudo chown -R root:root /root/.ssh
+sudo chown -R root:root /root/.sshping 
 
 ------------------------------------------------------
 

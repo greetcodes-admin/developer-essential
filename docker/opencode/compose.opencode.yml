@@ -1,0 +1,40 @@
+services:
+  opencode:
+    container_name: opencode
+    hostname: opencode
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    volumes:
+      - /devDisk:/devDisk
+      - /opt/opencode/config:/root/.config/opencode
+      - /opt/opencode/data:/root/.local/share/opencode
+
+    working_dir: /devDisk
+
+    environment:
+      - OPENCODE_SERVER_USERNAME=admin
+      - OPENCODE_SERVER_PASSWORD=9426460841149
+      - TZ=Asia/Kolkata
+
+    ports:
+      - "3011:3011"
+
+    stdin_open: true
+    tty: true
+    command: opencode web --hostname 0.0.0.0 --port 3011
+    restart: unless-stopped
+
+    networks:
+      devNetwork:
+        ipv4_address: 172.20.0.20
+
+    dns:
+      - 172.20.0.3
+
+networks:
+  devNetwork:
+    external: true
+
+# docker compose -p ai-tool -f compose.opencode.yml up -d --build --pull always

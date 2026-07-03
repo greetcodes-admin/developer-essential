@@ -7,10 +7,10 @@ services:
       dockerfile: Dockerfile
 
     volumes:
-      - /devDisk:/workspace
+      - /devDisk:/devDisk
       - /opt/codex:/opt/.codex
 
-    working_dir: /workspace
+    working_dir: /devDisk
 
     environment:
       - CODEX_HOME=/opt/.codex
@@ -23,7 +23,7 @@ services:
 
     networks:
       devNetwork:
-        ipv4_address: 172.20.0.20
+        ipv4_address: 172.20.0.21
 
     dns:
       - 172.20.0.3
