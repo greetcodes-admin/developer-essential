@@ -50,7 +50,10 @@ ufw allow 5380/tcp
 ufw delete allow 5380/tcp
 
 ufw allow 5050/tcp // pgadmin
-ufw allow 5432/tcp // pg
+ufw allow 5432/tcp from 110.226.124.215 // pg
+
+ufw allow from 110.226.124.215 to any port 81 proto tcp
+ufw allow from 110.226.124.215 to any port 5432 proto tcp
 
 ufw allow in on br-d5da5dd7e1b3 to any port 22 proto tcp
 ufw allow in on br-d5da5dd7e1b3 to any port 445 proto tcp
