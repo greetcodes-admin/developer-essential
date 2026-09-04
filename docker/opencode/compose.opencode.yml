@@ -9,6 +9,7 @@ services:
     volumes:
       - /devDisk:/devDisk
       - /opt/opencode/config:/root/.config/opencode
+      - /opt/opencode/config:/root/.config/opencode
       - /opt/opencode/data:/root/.local/share/opencode
 
     working_dir: /devDisk
@@ -23,7 +24,12 @@ services:
 
     stdin_open: true
     tty: true
-    command: opencode web --hostname 0.0.0.0 --port 3011
+    command:
+      - /bin/sh
+      - -c
+      - |
+        npm install -g opencode-ai@latest || echo "OpenCode update failed; starting the existing version." >&2
+        exec opencode web --hostname 0.0.0.0 --port 3011
     restart: unless-stopped
 
     networks:

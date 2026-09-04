@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends bash-completion
 RUN apt-get update && apt-get install -y --no-install-recommends curl dnsutils git gnupg iputils-ping jq lsof netcat-openbsd openssh-client ripgrep rsync telnet wget && rm -rf /var/lib/apt/lists/*
 
 # PHP CLI, Composer, and common PHP extensions for web app development.
-RUN apt-get update && apt-get install -y --no-install-recommends composer php-cli php-bcmath php-curl php-gd php-intl php-mbstring php-mysql php-soap php-sqlite3 php-xml php-zip && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends composer php-cli php-bcmath php-curl php-gd php-intl php-mbstring php-mysql php-pgsql php-soap php-sqlite3 php-xml php-zip && rm -rf /var/lib/apt/lists/*
 
 # MySQL and PostgreSQL command-line database clients.
 RUN apt-get update && apt-get install -y --no-install-recommends default-mysql-client postgresql-client && rm -rf /var/lib/apt/lists/*
