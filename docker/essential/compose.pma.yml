@@ -10,9 +10,6 @@ services:
       UPLOAD_LIMIT: 512M
       MEMORY_LIMIT: 512M
 
-    ports:
-      - '8080:8080'
-
     networks:
       devNetwork:
         ipv4_address: 172.20.0.12

@@ -38,6 +38,9 @@ curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essentia
 curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/essential/compose.pgAdmin.yml | docker compose -p essential -f - up -d --build --pull always
 curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/essential/compose.postgreSQL.yml | docker compose -p essential -f - up -d --build --pull always
 
+curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/essential/compose.pma.yml | docker compose -p essential -f - up -d --build --pull always
+curl -fsSL https://raw.githubusercontent.com/greetcodes-admin/developer-essential/refs/heads/main/docker/essential/compose.mySQL.yml | docker compose -p essential -f - up -d --build --pull always
+
 ------------------------------------------------------
 
 ufw allow 22/tcp
