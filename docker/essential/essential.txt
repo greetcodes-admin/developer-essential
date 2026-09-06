@@ -56,6 +56,7 @@ ufw allow 5050/tcp // pgadmin
 
 ufw allow from 110.226.124.215 to any port 81 proto tcp
 ufw allow from 110.226.124.215 to any port 5432 proto tcp
+ufw allow from 110.226.124.215 to any port 3306 proto tcp
 
 ufw allow in on br-d5da5dd7e1b3 to any port 22 proto tcp
 ufw allow in on br-d5da5dd7e1b3 to any port 445 proto tcp
