@@ -8,9 +8,10 @@ services:
       - /opt/postgresql:/var/lib/postgresql
 
     ports:
-      - '5432:5432/tcp'
+      - '5432:5432'
 
     environment:
+      TZ: Asia/Kolkata
       POSTGRES_USER: root
       POSTGRES_PASSWORD: Greet@8866
 

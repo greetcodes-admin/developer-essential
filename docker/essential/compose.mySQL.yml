@@ -1,0 +1,30 @@
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: mysql-db
+    restart: always
+
+    volumes:
+      - /opt/postgresql:/var/lib/postgresql
+
+    ports:
+      - '3306:3306'
+
+    environment:
+      TZ: Asia/Kolkata
+      MYSQL_ROOT_PASSWORD: Greet@8866
+      MYSQL_ROOT_HOST: "%"
+
+    command:
+      - --max-connections=500
+      - --innodb-buffer-pool-size=1024M
+
+    networks:
+      devNetwork:
+        ipv4_address: 172.20.0.7
+
+networks:
+  devNetwork:
+    external: true
+
+# docker compose -p essential -f compose.mySQL.yml up -d --build --pull always 

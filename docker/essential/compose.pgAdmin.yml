@@ -1,16 +1,17 @@
 services:
   pgAdmin:
     image: dpage/pgadmin4:latest
-    hostname: pgAdmin4
     container_name: pgAdmin4
     restart: unless-stopped
+
     volumes:
       - /opt/pgadmin:/var/lib/pgadmin
 
     ports:
-      - '5050:5050/tcp'
+      - '5050:5050'
 
     environment:
+      TZ: Asia/Kolkata
       PGADMIN_DEFAULT_EMAIL: developers@greet.codes
       PGADMIN_DEFAULT_PASSWORD: Greet@8866
       PGADMIN_LISTEN_PORT: 5050
